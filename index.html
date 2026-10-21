@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Shadow & Glass Generator — Herramienta Gratuita Online</title>
+  <meta name="description"
+    content="Genera sombras CSS multicapa y efectos glassmorphism de forma visual y gratuita. Copia el código en CSS, Variables CSS o formato Tailwind con un solo clic." />
+  <meta name="keywords"
+    content="generador css, box-shadow css, glassmorphism css, herramienta css online, css shadow generator, backdrop-filter" />
+  <meta property="og:title" content="CSS Shadow & Glass Generator — Gratis y Online" />
+  <meta property="og:description"
+    content="Genera sombras multicapa y efectos de cristal profesionales. Sin registro, sin límites." />
+  <meta property="og:type" content="website" />
+  <!-- Favicon inline SVG -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366F1'/%3E%3Crect x='6' y='10' width='14' height='14' rx='3' fill='white' opacity='0.35'/%3E%3Crect x='12' y='8' width='14' height='14' rx='3' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="8" fill="#6366F1" />
+            <path d="M8 14C8 10.686 10.686 8 14 8C17.314 8 20 10.686 20 14" stroke="white" stroke-width="2"
+              stroke-linecap="round" />
+            <circle cx="14" cy="18" r="3" fill="white" />
+          </svg>
+        </span>
+        <span class="brand-name">CSS<span class="brand-accent">Forge</span></span>
+        <span class="brand-badge">v1.0</span>
+      </div>
+      <nav class="header-nav" aria-label="Herramientas">
+        <button class="nav-tab active" id="tab-shadow" data-tool="shadow" aria-selected="true" role="tab">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="2" y="2" width="8" height="8" rx="2" fill="currentColor" opacity="0.4" />
+            <rect x="4" y="4" width="8" height="8" rx="2" fill="currentColor" />
+          </svg>
+          Sombras Multicapa
+        </button>
+        <button class="nav-tab" id="tab-glass" data-tool="glass" aria-selected="false" role="tab">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"
+              opacity="0.5" />
+            <rect x="3" y="3" width="8" height="8" rx="2" fill="currentColor" opacity="0.2" />
+          </svg>
+          Glassmorphism
+        </button>
+      </nav>
+      <div class="header-actions">
+        <!-- Language toggle -->
+        <button class="btn-lang" id="btn-lang" aria-label="Switch language" title="ES / EN">
+          <span class="lang-flag" aria-hidden="true">🌐</span>
+          <span class="lang-label" id="lang-label">EN</span>
+        </button>
+        <button class="btn-icon" id="btn-contact-modal" aria-label="Contacto" title="Contacto">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14 3H2C1.448 3 1 3.448 1 4V11C1 11.552 1.448 12 2 12H5L8 15L11 12H14C14.552 12 15 11.552 15 11V4C15 3.448 14.552 3 14 3Z"
+              stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN TOOL (ABOVE THE FOLD) ===== -->
+  <main class="tool-layout" id="main-tool" role="main">
+
+    <!-- === LEFT PANEL: CONTROLS === -->
+    <aside class="panel panel-controls" aria-label="Panel de controles">
+
+      <!-- Undo/Redo -->
+      <div class="history-bar">
+        <button class="btn-history" id="btn-undo" title="Deshacer (Ctrl+Z)" aria-label="Deshacer" disabled>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 4H9C11.209 4 13 5.791 13 8C13 10.209 11.209 12 9 12H4" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M2 4L5 1M2 4L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          Deshacer
+        </button>
+        <span class="history-count" id="history-count" aria-live="polite">0 / 0</span>
+        <button class="btn-history" id="btn-redo" title="Rehacer (Ctrl+Y)" aria-label="Rehacer" disabled>
+          Rehacer
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M12 4H5C2.791 4 1 5.791 1 8C1 10.209 2.791 12 5 12H10" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 4L9 1M12 4L9 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- PRESETS -->
+      <div class="control-section">
+        <label class="section-label">Presets rápidos</label>
+        <div class="presets-grid" id="presets-grid" role="group" aria-label="Presets de estilos">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- SHADOW CONTROLS -->
+      <div id="shadow-controls" class="controls-group">
+        <div class="control-section" id="shadow-layers-section">
+          <div class="section-header">
+            <label class="section-label">Capas de sombra</label>
+            <button class="btn-add-layer" id="btn-add-layer" aria-label="Añadir capa">+ Añadir</button>
+          </div>
+          <div id="shadow-layers" class="layers-list" role="list" aria-label="Capas de sombra"></div>
+        </div>
+
+        <div class="control-section" id="active-layer-controls">
+          <label class="section-label">Controles de capa activa</label>
+          <div class="slider-group">
+            <label class="slider-label" for="sl-offset-x">Offset X</label>
+            <div class="slider-row">
+              <input type="range" id="sl-offset-x" min="-80" max="80" value="0" class="slider" aria-label="Offset X" />
+              <span class="slider-val" id="val-offset-x" aria-live="polite">0px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="sl-offset-y">Offset Y</label>
+            <div class="slider-row">
+              <input type="range" id="sl-offset-y" min="-80" max="80" value="8" class="slider" aria-label="Offset Y" />
+              <span class="slider-val" id="val-offset-y" aria-live="polite">8px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="sl-blur">Blur</label>
+            <div class="slider-row">
+              <input type="range" id="sl-blur" min="0" max="100" value="24" class="slider" aria-label="Radio de blur" />
+              <span class="slider-val" id="val-blur" aria-live="polite">24px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="sl-spread">Spread</label>
+            <div class="slider-row">
+              <input type="range" id="sl-spread" min="-40" max="40" value="-4" class="slider"
+                aria-label="Spread de sombra" />
+              <span class="slider-val" id="val-spread" aria-live="polite">-4px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="sl-opacity">Opacidad</label>
+            <div class="slider-row">
+              <input type="range" id="sl-opacity" min="0" max="100" value="35" class="slider"
+                aria-label="Opacidad de sombra" />
+              <span class="slider-val" id="val-opacity" aria-live="polite">35%</span>
+            </div>
+          </div>
+          <div class="control-row">
+            <label class="slider-label" for="color-shadow">Color</label>
+            <div class="color-row">
+              <input type="color" id="color-shadow" value="#000000" class="color-picker" aria-label="Color de sombra" />
+              <label class="toggle-inset">
+                <input type="checkbox" id="chk-inset" aria-label="Sombra inset" />
+                <span>Inset</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GLASS CONTROLS -->
+      <div id="glass-controls" class="controls-group hidden">
+        <div class="control-section">
+          <label class="section-label">Parámetros de cristal</label>
+          <div class="slider-group">
+            <label class="slider-label" for="gl-blur">Blur de fondo</label>
+            <div class="slider-row">
+              <input type="range" id="gl-blur" min="0" max="40" value="12" class="slider" aria-label="Backdrop blur" />
+              <span class="slider-val" id="gval-blur" aria-live="polite">12px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="gl-opacity">Opacidad de fondo</label>
+            <div class="slider-row">
+              <input type="range" id="gl-opacity" min="0" max="100" value="15" class="slider"
+                aria-label="Opacidad de background" />
+              <span class="slider-val" id="gval-opacity" aria-live="polite">15%</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="gl-border-opacity">Opacidad borde</label>
+            <div class="slider-row">
+              <input type="range" id="gl-border-opacity" min="0" max="100" value="20" class="slider"
+                aria-label="Opacidad del borde" />
+              <span class="slider-val" id="gval-border-opacity" aria-live="polite">20%</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="gl-radius">Radio de esquinas</label>
+            <div class="slider-row">
+              <input type="range" id="gl-radius" min="0" max="40" value="16" class="slider"
+                aria-label="Border radius" />
+              <span class="slider-val" id="gval-radius" aria-live="polite">16px</span>
+            </div>
+          </div>
+          <div class="slider-group">
+            <label class="slider-label" for="gl-saturation">Saturación</label>
+            <div class="slider-row">
+              <input type="range" id="gl-saturation" min="100" max="300" value="180" class="slider"
+                aria-label="Saturación de backdrop" />
+              <span class="slider-val" id="gval-saturation" aria-live="polite">180%</span>
+            </div>
+          </div>
+          <div class="control-row">
+            <label class="slider-label">Color tinte</label>
+            <input type="color" id="color-glass-tint" value="#ffffff" class="color-picker"
+              aria-label="Color tinte del cristal" />
+          </div>
+        </div>
+      </div>
+
+      <!-- FAVORITES -->
+      <div class="control-section">
+        <div class="section-header">
+          <label class="section-label">Favoritos guardados</label>
+          <button class="btn-save" id="btn-save-fav" aria-label="Guardar como favorito"
+            title="Guardar configuración actual">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1L7.545 4.09L11 4.59L8.5 7.01L9.09 10.45L6 8.83L2.91 10.45L3.5 7.01L1 4.59L4.455 4.09L6 1Z"
+                fill="currentColor" />
+            </svg>
+            Guardar
+          </button>
+        </div>
+        <div id="favorites-list" class="favorites-list" aria-label="Favoritos guardados" role="list"></div>
+      </div>
+
+    </aside>
+
+    <!-- === CENTER: PREVIEW === -->
+    <section class="panel panel-preview" aria-label="Vista previa en vivo">
+      <div class="preview-header">
+        <span class="section-label">Vista previa en vivo</span>
+        <div class="bg-toggle" role="group" aria-label="Fondo de vista previa">
+          <button class="bg-btn active" data-bg="dark" aria-pressed="true">Oscuro</button>
+          <button class="bg-btn" data-bg="light" aria-pressed="false">Claro</button>
+          <button class="bg-btn" data-bg="gradient" aria-pressed="false">Gradiente</button>
+          <button class="bg-btn" data-bg="image" aria-pressed="false">Imagen</button>
+        </div>
+      </div>
+      <div class="preview-stage" id="preview-stage" aria-label="Área de vista previa">
+        <div class="preview-card" id="preview-card" aria-label="Elemento de vista previa">
+          <p class="preview-card-text">Vista Previa</p>
+          <p class="preview-card-sub">Tu efecto aparece aquí</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- === RIGHT PANEL: CODE OUTPUT === -->
+    <aside class="panel panel-code" aria-label="Código generado">
+      <div class="code-header">
+        <span class="section-label">Código generado</span>
+        <div class="code-tabs" role="tablist" aria-label="Formato de código">
+          <button class="code-tab active" data-format="css" role="tab" aria-selected="true">CSS</button>
+          <button class="code-tab" data-format="vars" role="tab" aria-selected="false">Variables</button>
+          <button class="code-tab" data-format="tailwind" role="tab" aria-selected="false">Tailwind</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre class="code-block" id="code-output" aria-label="Código CSS generado" tabindex="0"></pre>
+        <div class="code-actions">
+          <span class="share-feedback" id="share-feedback" aria-live="polite"></span>
+          <button class="btn-share" id="btn-share" aria-label="Generar enlace para compartir">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3" />
+              <circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3" />
+              <circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3" />
+              <path d="M4 7.3L9 9.8M9 3.2L4 5.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            </svg>
+            Compartir por URL
+          </button>
+          <button class="btn-copy" id="btn-copy" aria-label="Copiar código al portapapeles">
+            <svg id="copy-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4" />
+              <path d="M2 9V2.5C2 1.948 2.448 1.5 3 1.5H9.5" stroke="currentColor" stroke-width="1.4"
+                stroke-linecap="round" />
+            </svg>
+            <span id="copy-label">Copiar código</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ===== AD SPACE — BELOW TOOL ===== -->
+  <div class="ad-container ad-horizontal" aria-label="Publicidad" role="complementary">
+    <div class="ad-placeholder" id="ad-horizontal-main">
+      <!-- Google AdSense banner horizontal — pegar código aquí -->
+      <span class="ad-label">Publicidad</span>
+    </div>
+  </div>
+
+  <!-- ===== SEO CONTENT — BELOW THE FOLD ===== -->
+  <section class="seo-section" aria-labelledby="seo-heading">
+    <div class="seo-inner">
+      <h1 id="seo-heading" class="seo-h1">Generador de Sombras CSS y Glassmorphism Online — Gratis</h1>
+      <p class="seo-lead">
+        Crea efectos <strong>box-shadow multicapa</strong> y estilos de <strong>glassmorphism</strong> profesionales
+        de forma visual, instantánea y completamente gratuita. Copia el código en CSS, Variables CSS o formato Tailwind.
+      </p>
+
+      <div class="seo-grid">
+        <article class="seo-card">
+          <h2>¿Cómo usar el generador de sombras CSS?</h2>
+          <p>Mueve los deslizadores de <em>Offset X</em>, <em>Offset Y</em>, <em>Blur</em> y <em>Spread</em> para
+            ajustar cada capa de sombra. Puedes añadir hasta 5 capas independientes para crear efectos de profundidad
+            realistas. Una vez satisfecho, copia el código generado con un clic.</p>
+          <p>El sistema de <strong>historial con Deshacer/Rehacer</strong> te permite experimentar libremente sin miedo
+            a perder tu progreso, y puedes guardar tus configuraciones favoritas en el navegador.</p>
+        </article>
+
+        <article class="seo-card">
+          <h2>¿Qué es el Glassmorphism?</h2>
+          <p>El <strong>glassmorphism</strong> (o efecto cristal) es una tendencia de diseño UI que simula vidrio
+            esmerilado mediante la propiedad CSS <code>backdrop-filter: blur()</code> combinada con fondos
+            semi-transparentes y bordes translúcidos.</p>
+          <p>Con esta herramienta puedes ajustar el <em>blur de fondo</em>, la <em>opacidad</em>, el <em>radio de
+              esquinas</em> y la <em>saturación</em> para obtener el efecto de cristal perfecto.</p>
+        </article>
+
+        <article class="seo-card">
+          <h2>Formatos de código disponibles</h2>
+          <ul>
+            <li><strong>CSS Tradicional:</strong> Listo para pegar directamente en tu hoja de estilos.</li>
+            <li><strong>Variables CSS:</strong> Código con custom properties para proyectos escalables.</li>
+            <li><strong>Tailwind CSS:</strong> Clases JIT para proyectos con Tailwind v3.</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-section" aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Preguntas frecuentes (FAQ)</h2>
+        <details class="faq-item">
+          <summary>¿Cuántas capas de sombra puedo añadir?</summary>
+          <p>Puedes añadir hasta 5 capas de sombra independientes. Cada capa tiene sus propios parámetros de offset,
+            blur, spread, opacidad y color. Las capas se combinan automáticamente en la propiedad
+            <code>box-shadow</code>.
+          </p>
+        </details>
+        <details class="faq-item">
+          <summary>¿El código generado funciona en todos los navegadores?</summary>
+          <p><strong>box-shadow</strong> tiene soporte universal en todos los navegadores modernos.
+            <strong>backdrop-filter</strong> (para glassmorphism) requiere activación en Firefox (configuración
+            <code>layout.css.backdrop-filter.enabled</code>) y tiene soporte completo en Chrome, Edge y Safari.
+          </p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Mis diseños se guardan de forma permanente?</summary>
+          <p>Los favoritos se guardan en el <code>localStorage</code> de tu navegador. Son persistentes mientras no
+            borres los datos del navegador, pero son locales a tu dispositivo. Usa la función "Compartir por URL" para
+            guardar configuraciones de forma universal.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo usar el código Tailwind generado?</summary>
+          <p>El código Tailwind generado usa clases arbitrarias de JIT Mode compatibles con Tailwind CSS v3+.
+            Simplemente añade las clases al elemento HTML correspondiente en tu proyecto.</p>
+        </details>
+      </div>
+
+      <!-- Bloques de publicidad inferior (post-FAQ) — 2 columnas responsive -->
+      <div class="ad-dual-container" aria-label="Espacios publicitarios" role="complementary">
+        <div class="ad-block" id="ad-bottom-1">
+          <!-- Espacio Publicitario 1 — Pegar script AdSense aquí -->
+          <div class="ad-block-inner">
+            <span class="ad-badge" data-i18n="ad.label">PUBLICIDAD</span>
+            <span class="ad-subtext" data-i18n="ad.placeholder">Espacio disponible para anuncio</span>
+          </div>
+        </div>
+        <div class="ad-block" id="ad-bottom-2">
+          <!-- Espacio Publicitario 2 — Pegar script AdSense aquí -->
+          <div class="ad-block-inner">
+            <span class="ad-badge" data-i18n="ad.label">PUBLICIDAD</span>
+            <span class="ad-subtext" data-i18n="ad.placeholder">Espacio disponible para anuncio</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">CSS<span class="brand-accent">Forge</span></span>
+        <p class="footer-tagline">Herramientas CSS gratuitas para diseñadores y desarrolladores.</p>
+        <div class="status-indicator" aria-label="Estado del sistema: operativo">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="status-text">Sistema operativo</span>
+        </div>
+      </div>
+      <nav class="footer-links" aria-label="Enlaces legales">
+        <a href="#privacy" class="footer-link" id="link-privacy" data-i18n="footer.privacy">Política de Privacidad</a>
+        <a href="#terms" class="footer-link" id="link-terms" data-i18n="footer.terms">Términos de Uso</a>
+        <button class="footer-link btn-link" id="btn-footer-contact" data-i18n="footer.contact">Contacto</button>
+      </nav>
+      <p class="footer-copy">&copy; <span id="footer-year"></span> CSSForge. Todos los derechos reservados. Herramienta
+        100% gratuita y de código abierto.</p>
+    </div>
+  </footer>
+
+  <!-- ===== CONTACT MODAL ===== -->
+  <div class="modal-overlay hidden" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-title">Contacto</h2>
+        <button class="modal-close" id="btn-close-modal" aria-label="Cerrar modal">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <form class="contact-form" id="contact-form" novalidate>
+        <!-- Honeypot anti-spam -->
+        <input type="text" name="website" id="contact-website" tabindex="-1" autocomplete="off"
+          style="display:none !important;" aria-hidden="true">
+        <div class="form-group">
+          <label class="form-label" for="contact-category" data-i18n="form.category">Motivo de contacto</label>
+          <select class="form-select" id="contact-category" name="category" required>
+            <option value="" disabled selected data-i18n="form.categoryPlaceholder">Selecciona un motivo…</option>
+            <option value="bug" data-i18n="form.bug">Reportar un fallo</option>
+            <option value="feature" data-i18n="form.feature">Sugerir una función</option>
+            <option value="general" data-i18n="form.general">Contacto general</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-email" data-i18n="form.email">Correo electrónico</label>
+          <input class="form-input" type="email" id="contact-email" name="email" placeholder="tu@correo.com"
+            maxlength="120" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-message" data-i18n="form.message">Mensaje</label>
+          <textarea class="form-textarea" id="contact-message" name="message"
+            placeholder="Describe tu consulta con detalle…" rows="4" maxlength="1000" required></textarea>
+        </div>
+        <div class="form-status" id="form-status" aria-live="polite" role="status"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" id="btn-submit-contact">
+            <span id="submit-label" data-i18n="form.submit">Enviar mensaje</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 7L13 7M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== PRIVACY POLICY MODAL ===== -->
+  <div class="modal-overlay hidden" id="privacy-modal" role="dialog" aria-modal="true"
+    aria-labelledby="privacy-modal-title">
+    <div class="modal-box modal-box-legal">
+      <div class="modal-header">
+        <h2 id="privacy-modal-title" class="modal-title" data-i18n="legal.privacyTitle">Política de Privacidad</h2>
+        <button class="modal-close" id="btn-close-privacy" aria-label="Cerrar modal">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-legal-content">
+        <div class="legal-text-es">
+          <h3>1. Compromiso de Privacidad y Procesamiento 100% Client-Side</h3>
+          <p>En <strong>CSSForge</strong>, la privacidad de nuestros visitantes es fundamental. Esta herramienta opera
+            <strong>100% en el navegador (Client-Side)</strong>. Todos los cálculos matemáticos para la generación de
+            sombras CSS, efectos glassmorphism y código generado se ejecutan exclusivamente en tu dispositivo. Ningún
+            dato de diseño, estilo o configuración técnica es enviado ni procesado en servidores externos.
+          </p>
+
+          <h3>2. Almacenamiento Local (Local Storage)</h3>
+          <p>Utilizamos el almacenamiento local (<code>localStorage</code>) de tu navegador únicamente para almacenar
+            tus preferencias voluntarias: configuraciones de estilos favoritos y preferencia de idioma (español o
+            inglés). Esta información permanece en tu dispositivo y nunca se sincroniza con servidores de terceros.</p>
+
+          <h3>3. Publicidad y Cookies de Terceros</h3>
+          <p>Para mantener esta herramienta 100% gratuita y sin registro, podemos utilizar proveedores publicitarios
+            como Google AdSense. Dichos proveedores pueden emplear cookies o balizas web para mostrar anuncios
+            personalizados según la navegación del usuario. Puedes inhabilitar la publicidad personalizada a través de
+            la configuración de anuncios de Google o las preferencias de tu navegador.</p>
+
+          <h3>4. Formulario de Contacto</h3>
+          <p>
+          <p>Cuando utilizas nuestro formulario de contacto integrado, la información proporcionada (categoría, correo y
+            mensaje) se procesa de forma segura a través de Google Apps Script únicamente para responder a tu consulta o
+            reporte técnico. No comercializamos ni transferimos tu información a terceros.</p>
+          </p>
+        </div>
+        <div class="legal-text-en hidden">
+          <h3>1. Privacy Commitment & 100% Client-Side Processing</h3>
+          <p>At <strong>CSSForge</strong>, visitor privacy is a core principle. This tool operates <strong>100% in your
+              browser (Client-Side)</strong>. All mathematical calculations for CSS shadow generation, glassmorphism
+            effects, and generated code run strictly on your device. No design data, parameters, or configurations are
+            sent to or processed by external servers.</p>
+
+          <h3>2. Local Storage</h3>
+          <p>We use your browser's <code>localStorage</code> exclusively to save your voluntary preferences: saved
+            favorite configurations and language preference (Spanish or English). This data resides only on your device
+            and is never synchronized with third-party servers.</p>
+
+          <h3>3. Advertising & Third-Party Cookies</h3>
+          <p>To keep this tool 100% free and registration-free, we may use advertising partners like Google AdSense.
+            These partners may use cookies to serve ads based on user visits. You can opt out of personalized
+            advertising by visiting Google Ad Settings or adjusting your browser settings.</p>
+
+          <h3>4. Contact Inquiries</h3>
+          <p>When you submit a message through our contact modal, the data provided (category, email, message) is
+            securely processed via Google Apps Script solely to address your inquiry or bug report. We never share or
+            sell your email address.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btn-close-privacy-footer"
+          data-i18n="legal.close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TERMS OF USE MODAL ===== -->
+  <div class="modal-overlay hidden" id="terms-modal" role="dialog" aria-modal="true"
+    aria-labelledby="terms-modal-title">
+    <div class="modal-box modal-box-legal">
+      <div class="modal-header">
+        <h2 id="terms-modal-title" class="modal-title" data-i18n="legal.termsTitle">Términos de Uso</h2>
+        <button class="modal-close" id="btn-close-terms" aria-label="Cerrar modal">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-legal-content">
+        <div class="legal-text-es">
+          <h3>1. Aceptación de los Términos</h3>
+          <p>Al acceder y utilizar <strong>CSSForge</strong>, aceptas cumplir con los presentes Términos de Uso y todas
+            las leyes y regulaciones aplicables. Si no estás de acuerdo con alguno de estos términos, no debes utilizar
+            este sitio.</p>
+
+          <h3>2. Licencia y Código Generado</h3>
+          <p>Todo el código CSS, Variables CSS y clases de Tailwind CSS producido mediante el generador es de libre uso
+            (Dominio Público / Licencia MIT permisiva). Eres libre de utilizar, copiar, modificar e incorporar el código
+            generado en proyectos personales o comerciales sin necesidad de atribución ni pago de regalías.</p>
+
+          <h3>3. Uso Aceptable de la Herramienta</h3>
+          <p>CSSForge se proporciona como un recurso gratuito para desarrolladores y diseñadores. Queda prohibido
+            cualquier intento de vulnerar la seguridad, realizar scraping abusivo que sature los recursos o utilizar el
+            formulario de contacto para enviar spam o contenido malicioso.</p>
+
+          <h3>4. Descargo de Responsabilidad</h3>
+          <p>La herramienta se proporciona "tal cual" (as is), sin garantías de ningún tipo, explícitas o implícitas.
+            Aunque nos esforzamos por garantizar la compatibilidad entre navegadores modernos, CSSForge no se hace
+            responsable por inconsistencias de renderizado en navegadores desactualizados.</p>
+        </div>
+        <div class="legal-text-en hidden">
+          <h3>1. Acceptance of Terms</h3>
+          <p>By accessing and using <strong>CSSForge</strong>, you agree to be bound by these Terms of Use and all
+            applicable laws and regulations. If you do not agree with any part of these terms, you should not use this
+            site.</p>
+
+          <h3>2. License & Generated Code</h3>
+          <p>All CSS, CSS Custom Properties, and Tailwind CSS code generated through this application is completely free
+            to use (Public Domain / MIT License). You are free to copy, modify, and integrate the generated code into
+            commercial or personal projects without royalties or mandatory attribution.</p>
+
+          <h3>3. Acceptable Use</h3>
+          <p>CSSForge is provided as a free utility for developers and designers. You agree not to misuse the service,
+            attempt unauthorized access, flood the contact form with spam, or disrupt the site's normal operation.</p>
+
+          <h3>4. Disclaimer of Warranties</h3>
+          <p>The tool is provided on an "as is" and "as available" basis without warranties of any kind. While we strive
+            to ensure cross-browser accuracy, CSSForge assumes no liability for discrepancies or deprecated CSS support
+            in legacy browsers.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btn-close-terms-footer" data-i18n="legal.close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="app.js" defer></script>
+</body>
+
+</html>
